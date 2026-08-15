@@ -62,26 +62,29 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.25rem;
   --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+  --paper: oklch(0.986 0 0);
+  --ink: oklch(0.204 0 0);
+  --graphite: oklch(0.916 0 0);
+  --foreground: oklch(0.204 0 0);
+  --card: oklch(0.986 0 0);
+  --card-foreground: oklch(0.204 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.204 0 0);
+  --primary: oklch(0.546 0.215 262.87);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.968 0 0);
+  --secondary-foreground: oklch(0.204 0 0);
+  --muted: oklch(0.968 0 0);
+  --muted-foreground: oklch(0.52 0 0);
+  --accent: oklch(0.951 0.02 262.87);
+  --accent-foreground: oklch(0.42 0.2 262.87);
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.204 0 0);
+  --input: oklch(0.916 0 0);
+  --ring: oklch(0.546 0.215 262.87);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -95,6 +98,62 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-graphite: var(--graphite);
+  --font-sketch: "Architects Daughter", "Comic Sans MS", cursive;
+  --font-body: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@utility sketch-box {
+  border: 2px solid var(--ink);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  background-color: var(--paper);
+}
+
+@utility sketch-box-alt {
+  border: 2px solid var(--ink);
+  border-radius: 15px 225px 15px 255px / 225px 15px 255px 15px;
+  background-color: var(--paper);
+}
+
+@utility sketch-pill {
+  border: 2px solid var(--ink);
+  border-radius: 120px 8px 110px 8px / 8px 110px 8px 120px;
+}
+
+@utility sketch-shadow {
+  box-shadow: 3px 4px 0 -1px var(--ink);
+}
+
+@utility paper-grid {
+  background-image:
+    linear-gradient(to right, var(--graphite) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--graphite) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+@utility wobble {
+  transition:
+    transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 220ms ease;
+  &:hover {
+    transform: rotate(-0.6deg) translateY(-2px);
+    box-shadow: 4px 6px 0 -1px var(--ink);
+  }
+}
+
+@keyframes draw-in {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 .dark {
@@ -140,5 +199,14 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-sketch);
+    letter-spacing: 0.01em;
   }
 }
