@@ -130,7 +130,7 @@ const MOCK_USERS: UserRecord[] = [
 
 const MOCK_ACTIONS: ActionLog[] = Array.from({ length: 34 }, (_, i) => {
   const tools = ["lookup_user", "reset_password", "open_ticket", "search_kb", "escalate_incident", "grant_access"];
-  const tool = tools[i % tools.length];
+  const tool = tools[i % tools.length]!;
   const status = i % 9 === 0 ? "error" : i % 13 === 0 ? "running" : "success";
   return {
     id: `act_${(1000 + i).toString()}`,
@@ -138,7 +138,7 @@ const MOCK_ACTIONS: ActionLog[] = Array.from({ length: 34 }, (_, i) => {
     status: status as ActionLog["status"],
     duration_ms: 120 + ((i * 137) % 1800),
     created_at: new Date(Date.UTC(2026, 7, 15, 16, 0) - i * 1000 * 60 * 37).toISOString(),
-    input: { query: `${tool}:${i}`, actor: MOCK_USERS[i % MOCK_USERS.length].email },
+    input: { query: `${tool}:${i}`, actor: MOCK_USERS[i % MOCK_USERS.length]!.email },
     output:
       status === "error"
         ? { error: "upstream_timeout", retryable: true }
@@ -155,7 +155,7 @@ const MOCK_THREADS: ThreadSummary[] = [
 ];
 
 function mockThreadDetail(id: string): ThreadDetail {
-  const summary = MOCK_THREADS.find((t) => t.thread_id === id) ?? MOCK_THREADS[0];
+  const summary = MOCK_THREADS.find((t) => t.thread_id === id) ?? MOCK_THREADS[0]!;
   return {
     ...summary,
     thread_id: id,
@@ -267,7 +267,7 @@ export async function streamChat(
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(body),
-      signal,
+      ...(signal ? { signal } : {}),
     });
     if (res.status === 422) {
       const detail = await res.json().catch(() => ({}));
